@@ -1,0 +1,13 @@
+This module will create all S3 and CloudFront objects, but requires you to have already created the certificate.
+This module does not upload the site files or update dns
+
+Example usage
+module "static-site-cloudfront-acm-partial" {
+  site_bucket_unique_name = "stratusgrid.com"
+  certificate_subject_name = "stratusgrid.com"
+  cloudfront_alias_list = ["stratusgrid.com","www.stratusgrid.com","stratusgrid.net","www.stratusgrid.net"]
+  cloudfront_price_class = "PriceClass_200"
+  index_document = "index.html"
+  error_document = "index.html"
+  source = "./static-site-cloudfront-acm-partial"
+}
