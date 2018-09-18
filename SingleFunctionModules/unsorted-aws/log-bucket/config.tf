@@ -10,12 +10,12 @@ resource "aws_s3_bucket" "log" {
     enabled = true
 
     transition {
-      days = 30
+      days = 90
       storage_class = "GLACIER"
     }
 
     expiration {
-      days = 2555
+      days = 2557
     }
   }
 }
