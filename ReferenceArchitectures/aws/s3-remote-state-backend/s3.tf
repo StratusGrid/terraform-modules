@@ -97,5 +97,5 @@ data "aws_iam_policy_document" "encrypted_transit_bucket_policy" {
 
 resource "aws_s3_bucket_policy" "remote_state_backend" {
   bucket = "${aws_s3_bucket.remote_state_backend.id}"
-  policy = "${encrypted_transit_bucket_policy}"
+  policy = "${data.aws_iam_policy_document.encrypted_transit_bucket_policy.json}"
 }
