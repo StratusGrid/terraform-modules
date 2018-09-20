@@ -13,3 +13,11 @@ variable "user_name_count" {
 variable "user_names" {
   type = "list"
 }
+
+variable "remote_state_customer_specific_count" {
+  type "string"
+}
+
+variable "remote_state_customer_specific" {
+  type = "list"
+}
