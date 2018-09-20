@@ -14,10 +14,12 @@ variable "user_names" {
   type = "list"
 }
 
-variable "remote_state_customer_specific_count" {
-  type "string"
+variable "customer_specific_count" {
+  type = "string"
+  default = "0"
 }
 
-variable "remote_state_customer_specific" {
+variable "customer_specific_names" {
   type = "list"
+  default = []
 }
