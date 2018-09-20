@@ -33,6 +33,7 @@ resource "aws_dynamodb_table" "specific_remote_state_backend" {
 }
 
 data "aws_iam_policy_document" "specific_remote_state_backend_group" {
+  count = "${var.customer_specific_count}"
   statement {
     actions   = [
       "s3:Get*",
@@ -79,7 +80,7 @@ resource "aws_iam_group_policy" "specific_remote_state_backend" {
   count = "${var.customer_specific_count}"
   name    = "remote-state-backend-access-${var.customer_specific_names[count.index]}"
   group   = "${aws_iam_group.specific_remote_state_backend.*.id[count.index]}"
-  policy  = "${data.aws_iam_policy_document.specific_remote_state_backend_group.json}"
+  policy  = "${data.aws_iam_policy_document.specific_remote_state_backend_group.*.json[count.index]}"
 }
 
 resource "aws_iam_group_membership" "specific_remote_state_backend" {
