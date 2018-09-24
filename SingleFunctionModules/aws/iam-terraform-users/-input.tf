@@ -1,5 +1,5 @@
 variable "terraform_users_count" {
-  type "string"
+  type = "string"
   default = "0"
 }
 
