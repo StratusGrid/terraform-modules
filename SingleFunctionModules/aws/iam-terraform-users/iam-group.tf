@@ -18,7 +18,7 @@ data "aws_iam_policy_document" "terraform_users" {
 resource "aws_iam_group_policy" "terraform_users" {
   name    = "terraform-users-access"
   group   = "${aws_iam_group.terraform_users.id}"
-  policy  = "${data.aws_iam_policy_document.remote_state_backend_group.json}"
+  policy  = "${data.aws_iam_policy_document.terraform_users.json}"
 }
 
 resource "aws_iam_group_membership" "terraform_users" {
