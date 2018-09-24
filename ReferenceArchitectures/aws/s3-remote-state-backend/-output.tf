@@ -6,6 +6,10 @@ output "dynamodb_table" {
   value = "${aws_dynamodb_table.remote_state_backend.id}"
 }
 
+output "kms_key_name" {
+  value = "${aws_kms_key.remote_state_backend.name}"
+}
+
 output "kms_key_arn" {
   value = "${aws_kms_key.remote_state_backend.arn}"
 }
