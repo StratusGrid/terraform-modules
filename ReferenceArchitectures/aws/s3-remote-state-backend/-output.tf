@@ -7,7 +7,7 @@ output "dynamodb_table" {
 }
 
 output "kms_key_name" {
-  value = "${aws_kms_key.remote_state_backend.name}"
+  value = "${aws_kms_key.remote_state_backend.id}"
 }
 
 output "kms_key_arn" {
