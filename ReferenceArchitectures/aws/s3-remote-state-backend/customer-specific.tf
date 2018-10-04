@@ -27,15 +27,27 @@ resource "aws_dynamodb_table" "specific_remote_state_backend" {
     type = "S"
   }
   hash_key        = "LockID"
-  name            = "${var.name_prefix}-remote-state-backend/${var.customer_specific_names[count.index]}"
-  read_capacity   = 10
-  write_capacity  = 10
+  name            = "${var.customer_specific_names[count.index]}-remote-state-backend"
+  read_capacity   = 1
+  write_capacity  = 1
 }
 
 data "aws_iam_policy_document" "specific_remote_state_backend_group" {
   count = "${var.customer_specific_count}"
   statement {
     actions   = [
+      "s3:ListBucket",
+      "s3:GetBucketLocation",
+      "s3:ListBucketMultipartUploads"
+    ]
+    resources = [
+      "${aws_s3_bucket.remote_state_backend.arn}"
+    ]
+    sid       = "AllowAccessToRemoteStateBackendBucket"
+  }
+  statement {
+    actions   = [
+      "s3:AbortMultipartUpload",
       "s3:Get*",
       "s3:List*",
       "s3:Put*"
@@ -43,7 +55,7 @@ data "aws_iam_policy_document" "specific_remote_state_backend_group" {
     resources = [
       "${aws_s3_bucket.remote_state_backend.arn}/${var.customer_specific_names[count.index]}"
     ]
-    sid       = "AllowAccessToRemoteStateBackend"
+    sid       = "AllowAccessToRemoteStateBackendKey"
   }
   statement {
     actions   = [
@@ -80,7 +92,7 @@ resource "aws_iam_group_policy" "specific_remote_state_backend" {
   count = "${var.customer_specific_count}"
   name    = "remote-state-backend-access-${var.customer_specific_names[count.index]}"
   group   = "${aws_iam_group.specific_remote_state_backend.*.id[count.index]}"
-  policy  = "${data.aws_iam_policy_document.specific_remote_state_backend_group.*.json[count.index]}"
+  policy  = "${element(data.aws_iam_policy_document.specific_remote_state_backend_group.*.json, count.index)}"
 }
 
 resource "aws_iam_group_membership" "specific_remote_state_backend" {

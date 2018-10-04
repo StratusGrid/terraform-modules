@@ -52,9 +52,9 @@ data "aws_iam_policy_document" "encrypted_transit_bucket_policy" {
     condition {
       test      = "StringNotEquals"
       values    = [
-        "${aws_kms_key.remote_state_backend.arn}"
+        "aws:kms"
       ]
-      variable  = "s3:x-amz-server-side-encryption-aws-kms-key-id"
+      variable  = "s3:x-amz-server-side-encryption"
     }
     effect    = "Deny"
     principals {
