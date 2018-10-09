@@ -53,7 +53,7 @@ data "aws_iam_policy_document" "specific_remote_state_backend_group" {
       "s3:Put*"
     ]
     resources = [
-      "${aws_s3_bucket.remote_state_backend.arn}/${var.customer_specific_names[count.index]}"
+      "${aws_s3_bucket.remote_state_backend.arn}/${var.customer_specific_names[count.index]}*"
     ]
     sid       = "AllowAccessToRemoteStateBackendKey"
   }
